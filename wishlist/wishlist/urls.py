@@ -20,5 +20,6 @@ from items import views as item_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
-    path('items/', item_views.ListAllItems)
+    path('items/', item_views.ListAllItems),
+    path('register/', user_views.register, name='register'),
 ]
