@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('home.urls')),
     path('items/', item_views.ListAllItems),
     path('register/', user_views.register, name='register'),
+    path('login/', user_views.login, name='login'),
 ]
