@@ -14,11 +14,10 @@ posts = [
         'publishing_date' : 'September 25, 2021'
     }
 ]
+
 # Create your views here.
 def home(request):
     context = {
         'posts' : posts
     }
     return render(request, 'home/home.html', context)
-
-#{'title' : ''}
