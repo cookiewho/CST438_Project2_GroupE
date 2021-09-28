@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from items import views as item_views
+from django.shortcuts import redirect
+from users import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
