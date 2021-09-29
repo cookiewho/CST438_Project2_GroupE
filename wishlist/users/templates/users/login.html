@@ -1,0 +1,15 @@
+{% extends "home/base.html" %}
+{% block content %}
+    <h1>Login</h1>
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{ login_form.as_p }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Sign In</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
