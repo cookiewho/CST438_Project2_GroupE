@@ -27,4 +27,6 @@ urlpatterns = [
     path('items/', item_views.ListAllItems),
     path('register/', user_views.register, name='register'),
     path('login/', user_views.login, name='login'),
+    #REST FRAMEWORK URLS
+    path('api/user/', include('users.api.urls', 'users_api')),
 ]
