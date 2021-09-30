@@ -7,6 +7,7 @@ from home.models import List
 class Item(models.Model):
     name = models.CharField(max_length=100)
     price = models.FloatField()
+    image = models.URLField(default='None')
 
     def __str__(self):
         return self.name
