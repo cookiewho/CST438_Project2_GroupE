@@ -27,4 +27,5 @@ urlpatterns = [
     path('items/', item_views.ListAllItems),
     path('register/', user_views.register, name='register'),
     path('login/', user_views.login, name='login'),
+    path('update/', user_views.update, name='update'),
 ]
