@@ -14,9 +14,7 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
-    pass
-
-# # List is a list of lists (userList, itemList)
+# List is a list of lists (userList, itemList)
 class itemList(models.Model):
     list_id = models.ForeignKey(List, on_delete=CASCADE)
     item_id = models.ManyToManyField(Item)

@@ -28,4 +28,7 @@ urlpatterns = [
     path('register/', user_views.register, name='register'),
     path('login/', user_views.login, name='login'),
     path('update/', user_views.update, name='update'),
+
+    #REST API URL'S
+    path('api/', include('api.urls')),
 ]

@@ -11,9 +11,8 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
-
-    pass
-
+    
+    
 class userList(models.Model):
     user_id = models.ForeignKey(User, on_delete=CASCADE)
     list_id = models.ForeignKey(List, on_delete=CASCADE)

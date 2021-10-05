@@ -5,7 +5,7 @@ from api.views import *
 app_name = 'user'
 
 urlpatterns = [
-    path('user/', api_detail_user_view, name='apiUserView'),
+    # path('users/', api_detail_user_view, name='apiUserView'),
     path('register/', registration_view, name="register"),
     path('items/', item_list_view, name="item-list"),
     path('items-detail/<str:pk>', item_detail_view, name="item-detail"),

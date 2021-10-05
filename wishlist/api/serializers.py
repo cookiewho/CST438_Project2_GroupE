@@ -1,12 +1,17 @@
 from rest_framework import serializers
-from users.models import *
+from users.models import User, userList, Update
 from home.models import *
 from items.models import *
 
-class UserSerializer(serializers.ModelSerializer):
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'password', 'firstname', 'lastname']
+
+class UserListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['id', 'username', 'password', 'firstname', 'lastname']
+        model = userList
+        fields = '__all__'
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -36,4 +41,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
+        fields = '__all__'
+
+class ItemListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = itemList
         fields = '__all__'
