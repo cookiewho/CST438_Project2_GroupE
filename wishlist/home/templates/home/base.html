@@ -13,10 +13,11 @@
 
 
     <link rel="stylesheet" href="{% static 'home/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% if title %}
-    <title>Django Home - {{ title }}</title>
+    <title>Nick's Naks - {{ title }}</title>
     {% else %}
-    <title>Django Home</title>
+    <title>Nick's Naks</title>
     {% endif %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,8 +39,8 @@
                     </div>
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link" href="#">Login</a>
-                        <a class="nav-item nav-link" href="#">Register</a>
+                        <a class="nav-item nav-link" href="/login">Login</a>
+                        <a class="nav-item nav-link" href="/register">Register</a>
                     </div>
                 </div>
             </div>

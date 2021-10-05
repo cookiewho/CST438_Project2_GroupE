@@ -11,9 +11,18 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
-
-    pass
-
+    
+    
 class userList(models.Model):
     user = models.ForeignKey(User, on_delete=CASCADE)
     list_name = models.ForeignKey(List, on_delete=CASCADE)
+
+class Update(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return f'{self.user.username} Update'
+
+    def save(self):
+        super().save()
+
+
