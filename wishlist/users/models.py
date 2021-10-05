@@ -15,5 +15,5 @@ class User(models.Model):
     pass
 
 class userList(models.Model):
-    user_id = models.ForeignKey(User, on_delete=CASCADE)
-    list_id = models.ForeignKey(List, on_delete=CASCADE)
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    list_name = models.ForeignKey(List, on_delete=CASCADE)

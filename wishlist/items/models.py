@@ -18,5 +18,5 @@ class Item(models.Model):
 
 # # List is a list of lists (userList, itemList)
 class itemList(models.Model):
-    list_id = models.ForeignKey(List, on_delete=CASCADE)
-    item_id = models.ManyToManyField(Item)
+    list_name = models.ForeignKey(List, on_delete=CASCADE)
+    item = models.ManyToManyField(Item)
