@@ -14,8 +14,8 @@ class User(models.Model):
     
     
 class userList(models.Model):
-    user_id = models.ForeignKey(User, on_delete=CASCADE)
-    list_id = models.ForeignKey(List, on_delete=CASCADE)
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    list_name = models.ForeignKey(List, on_delete=CASCADE)
 
 class Update(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
