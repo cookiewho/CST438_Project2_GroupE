@@ -1,7 +1,7 @@
   .content {
+    
     align-items: center;
     justify-content: center;
-    text-align: center;
   }
   .navbarStyling{
     background-color: rgb(245, 154, 17);
@@ -34,4 +34,29 @@
     margin: 0px auto;
     width: 80%;
     max-width: 400px;
+  }
+  #centeredText {
+    text-align: center;
+  }
+
+  .gradientNav {
+    background: linear-gradient(45deg, #d17c78, #cf9eb6, #fcb4cc);
+    background-size: 400% 400%;
+    animation: gradient 20s ease infinite;
+  }
+  .gradientBody {
+    background: linear-gradient(-45deg, #ffcc4c,#1fde91, #864bff, #19aad1 );
+    background-size: 200% 1000%;
+    animation: gradient 20s ease infinite;
+  }
+  @keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
   }
