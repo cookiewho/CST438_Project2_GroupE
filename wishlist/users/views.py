@@ -47,3 +47,25 @@ def update(request):
     }
   
   return render(request, 'users/update.html', context)
+
+# @login_required
+def account(request):
+  if request.method=="POST":
+    if 'delete_acc' in request.POST:
+      #user_id = request.session['user_id']
+      
+      #call api to delete user where user.id == user_id
+      #del request.session['user_id'] # delete session
+      messages.success(request, f'Account Deleted')
+      return redirect('/')
+    if 'log_out' in request.POST:
+      #del request.session['user_id'] #deleting session
+      messages.success(request, f'You have been logged out')
+      return redirect('/',)
+  else:
+  # user_id = request.session['user_id']
+  # get user json from API where user.id == user_id
+    jsonUserData = {'username': "testing",
+                  'Fname': "Jimbo",
+                  'Lname': "Bimbo"}
+    return render(request, 'users/accountDetails.html', jsonUserData)

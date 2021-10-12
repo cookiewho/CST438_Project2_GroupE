@@ -21,3 +21,8 @@
     width: 80%;
     max-width: 400px;
   }
+
+  .wideButtonSelection{
+    display:flex;
+    justify-content: space-between;
+  }
