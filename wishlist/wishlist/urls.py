@@ -18,17 +18,19 @@ from django.contrib import admin
 from django.urls import path, include
 from items import views as item_views
 from django.shortcuts import redirect
-from users import views as user_views
+from rest_framework.authtoken.views import obtain_auth_token
+# from users import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('addItems/', addItems_views.addItems, name='addItems'),
     path('', include('home.urls')),
     path('items/', item_views.ListAllItems),
-    path('register/', user_views.register, name='register'),
-    path('login/', user_views.login, name='login'),
-    path('update/', user_views.update, name='update'),
+    # path('register/', user_views.register, name='register'),
+    # path('login/', user_views.login, name='login'),
+    # path('update/', user_views.update, name='update'),
 
     #REST API URL'S
     path('api/', include('api.urls')),
+    path('auth/', obtain_auth_token), #newly added code
 ]
