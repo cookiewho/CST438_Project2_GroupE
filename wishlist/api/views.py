@@ -1,4 +1,3 @@
-from re import S
 from django import forms
 from django.http.response import HttpResponseRedirect
 from rest_framework import serializers, status
@@ -29,6 +28,7 @@ from rest_framework.permissions import IsAuthenticated
 # permission_classes = [IsAuthenticated]
 
 #[url]/api/register/
+@api_view(['POST'])
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -36,10 +36,12 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}')
-            return redirect('login')
+            return Response(request.data, status=status.HTTP_200_OK)
+            #return redirect('login')
     else: 
         form = UserCreationForm()
-        return render(request, 'home/home.html', {'form': form, 'title':'Register'})
+        return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
+        #return render(request, 'home/home.html', {'form': form, 'title':'Register'})
 
 #[url]/api/login/
 @api_view(['POST'])
@@ -84,6 +86,9 @@ def new_item(request):
         form: ItemUpdateForm(request.POST, instance=request.user)
         print("form not vaild")
         return render(request, 'home/home.html', {'form': form, 'title': 'Add a new Item'})
+
+#[url]/api/user_id/wishlist_id/item_id, add item
+#[url]/api/user_id/wishlist_id/item_id, delete item
 
 #[url]/api/view_users/
 @api_view(['GET'])
