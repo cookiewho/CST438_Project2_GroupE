@@ -1,0 +1,28 @@
+  .content {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  #horizontalSign{
+    text-align: center;
+    margin: 5% auto;
+    width: 80%;
+    min-width: 500px;
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background:linear-gradient(rgba(0, 0, 0, 0.253),rgba(0, 0, 0, 0.253)) center/2px 95% no-repeat;
+    background-color: rgba(255, 255, 255, 0.80);
+  }
+  
+  #horizontalSign #child{
+    margin: 0px auto;
+    width: 80%;
+    max-width: 400px;
+  }
+
+  .wideButtonSelection{
+    display:flex;
+    justify-content: space-between;
+  }
