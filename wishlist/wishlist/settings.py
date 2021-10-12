@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 import django_heroku
 
+import rest_framework
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,6 +35,7 @@ ALLOWED_HOSTS = ['nicnak.herokuapp.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_filters',
     'home.apps.HomeConfig',
     'items.apps.ItemsConfig',
     'users.apps.UsersConfig',
@@ -46,7 +49,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'rest_framework',
-    
 ]
 
 MIDDLEWARE = [
