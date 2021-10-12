@@ -2,8 +2,6 @@ from django.db import models
 from django.db.models.deletion import CASCADE
 from home.models import List
 
-# if tables need to be updated, change the model,then run python manage.py migrate
-
 class Item(models.Model):
     name = models.CharField(max_length=100)
     price = models.FloatField()

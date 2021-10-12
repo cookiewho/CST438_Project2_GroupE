@@ -3,13 +3,16 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from .forms import UserUpdateForm
+from users.models import User
 from django.contrib.auth.decorators import login_required
 
 def register(request):
   if request.method == 'POST':
     register_form = UserCreationForm(request.POST)
     if register_form.is_valid():
-      username = register_form.cleaned_data.get('username')
+      inputed_username = register_form.cleaned_data.get('username')
+      user = User.object.get(username=inputed_username)
+      request.session['user_id'] = user.id
       messages.success(request, f'Account created for {username}!')
       return redirect('admin')
   else:  
@@ -22,9 +25,11 @@ def login(request):
     if login_form.is_valid():
       inputed_username = login_form.cleaned_data.get('username')
       inputed_password = login_form.cleaned_data.get('password')
-      user = authenticate(username=inputed_username, password=inputed_password)
-      if user is not None:
-        login(request, user)
+      authenticated = authenticate(username=inputed_username, password=inputed_password)
+      if authenticated is not None:
+        user = User.object.get(username=inputed_username)
+        # login(request, user)
+        request.session['user_id'] = user.id
         messages.info(request, f'Welcome back {inputed_username}.')
         return redirect('admin')
   login_form = AuthenticationForm()
@@ -48,6 +53,7 @@ def update(request):
   
   return render(request, 'users/update.html', context)
 
+
 # @login_required
 def account(request):
   if request.method=="POST":
@@ -69,3 +75,4 @@ def account(request):
                   'Fname': "Jimbo",
                   'Lname': "Bimbo"}
     return render(request, 'users/accountDetails.html', jsonUserData)
+ 

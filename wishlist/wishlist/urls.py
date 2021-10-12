@@ -32,4 +32,5 @@ urlpatterns = [
 
     #REST API URL'S
     path('api/', include('api.urls')),
+    
 ]
