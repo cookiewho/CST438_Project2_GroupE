@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.db.models import fields
 from django.forms import widgets
 from .models import *

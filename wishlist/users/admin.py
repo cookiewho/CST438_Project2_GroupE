@@ -1,8 +1,7 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# Register your models here.
-# from .models import User, userList, Update
+from .models import Update
 
 # admin.site.register(User)
 # admin.site.register(userList)
-# admin.site.register(Update)
+admin.site.register(Update)
