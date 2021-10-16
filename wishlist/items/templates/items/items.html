@@ -1,19 +1,35 @@
 {% extends "home/base.html" %}
 {% block content %}
-    <h1> TEST </h1>
+    <style>
+        #center {
+            margin: auto;
+            text-align: center;
+            padding: 10px;
+        }
 
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width:100%;
+            height:100%;
+            }
+    </style>
+    <div id="center">
 
-    {% for item in items %}
-        <div>
-            {{ item.item_name }}
-            {{ item.price }}
-            {{ item.category }}
-            {{ item.description }}
-            <br>
-            <img src={{ item.image }} width="300" height="300">
-            <br>
-            <br>
+        <h1> Items </h1>
+
+        <div class="row">
+        {% for item in items %}
+            <div class="col-md-6">
+                <article class="media content-section">
+                    <img src={{ item.image }}>
+                    <div class="media-body">
+                        {{ item.name }}  {{ item.price }}
+                    </div>
+                </article>
+            </div>
+        {% endfor %}
         </div>
-    {% endfor %}
-    
+    </div>
 {% endblock content %}
