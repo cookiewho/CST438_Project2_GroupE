@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['nicnak.herokuapp.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_filters',
     'home.apps.HomeConfig',
     'items.apps.ItemsConfig',
     'users.apps.UsersConfig',
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'rest_framework',
-    
+    # 'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -143,5 +144,14 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+#     ],
+# 'DEFAULT_PERMISSION_CLASSES': [
+#     'rest_framework.permissions.IsAuthenticated',
+# ]
+# }
 
 django_heroku.settings(locals())
