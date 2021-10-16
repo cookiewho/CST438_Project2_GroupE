@@ -1,49 +1,37 @@
+from django.db import models
+from django.db.models import fields
 from rest_framework import serializers
-from users.models import User, userList, Update
-from home.models import *
-from items.models import *
-
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['id', 'username', 'password', 'firstname', 'lastname']
-
-class UserListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = userList
-        fields = '__all__'
-
-class RegistrationSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
-
+from django.contrib.auth.models import User
+from rest_framework.authtoken.views import Token
+from rest_framework.exceptions import NotAuthenticated
+from .models import UserList, Item
+        
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'password', 'password2', 'firstname', 'lastname']
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
+        fields = ['id', 'first_name', 'last_name', 'username', 'password', 'email']
 
-    def save(self):
-        user = User (
-            username=self.validated_data.get('username', ''),
-            firstname=self.validated_data.get('firstname', ''),
-            lastname=self.validated_data.get('lastname', ''),
-        )
-        password = self.validated_data['password']
-        password2 = self.validated_data['password2']
-
-        if password != password2:
-            raise serializers.ValidationError({'password': 'Passwords must match.'})
-        user.password=password
-        user.save()
-        return user
+        extra_kwargs = {'password': {
+            'write_only':True,
+            'required':True
+        }}
 
 class ItemSerializer(serializers.ModelSerializer):
-    class Meta:
+    class Meta: 
         model = Item
-        fields = '__all__'
+        fields = ['id', 'name', 'price', 'image', 'category', 'description']
 
-class ItemListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = itemList
-        fields = '__all__'
+
+class UserListSerializer(serializers.ModelSerializer):
+    user_list = ItemSerializer(many=True)
+    # user = UserSerializer(many=True)
+    class Meta: 
+        model = UserList
+        fields = ['id', 'list_name', 'user', 'user_list']
+
+class UserListSerializer2(serializers.ModelSerializer):
+    user_list = ItemSerializer(many=True)
+    user = UserSerializer(many=True)
+    class Meta: 
+        model = UserList
+        fields = ['id', 'list_name', 'user', 'user_list']
