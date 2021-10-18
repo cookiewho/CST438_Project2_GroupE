@@ -1,14 +1,14 @@
 from django.shortcuts import render
-from api import views
+from api import views as api
 
-def ListAllItems(request):
-    context = {}
-    
-    response = views.view_items(request)
+def ListAllItems(request):    
+    response = api.view_items(request)
     context = {'items' : response.data}
 
     return render(request, 'items/items.html', context)
 
 def ShowItem(request, item_id):
-    print('==== ENTERED FUNCTION ====')
-    return render(request, 'items/item.html')
+    response = api.view_items_by_id(request, item_id)
+    context = {'item':response.data}
+
+    return render(request, 'items/item.html', context)
