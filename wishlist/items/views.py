@@ -1,12 +1,14 @@
 from django.shortcuts import render
-# from models import Item
+from api import views as api
 
-def ListAllItems(request):
-    # pull from db
-    items = []
+def ListAllItems(request):    
+    response = api.view_items(request)
+    context = {'items' : response.data}
 
-
-    context = {
-        'items' : items
-    }
     return render(request, 'items/items.html', context)
+
+def ShowItem(request, item_id):
+    response = api.view_items_by_id(request, item_id)
+    context = {'item':response.data}
+
+    return render(request, 'items/item.html', context)
