@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 from django.shortcuts import render, redirect
-
-=======
 from django.http import response, JsonResponse
 from django.shortcuts import render
->>>>>>> main
 from api import views as api
 
 def ListAllItems(request):    
@@ -16,7 +12,6 @@ def ListAllItems(request):
 def ShowItem(request, item_id):
     response = api.view_items_by_id(request, item_id)
 
-<<<<<<< HEAD
     request.session['user_id'] = 1
     user_id = request.session['user_id']
     
@@ -36,12 +31,9 @@ def AddItem(request, item_id, user_id):
     context = {'item' : response.data}
 
     return redirect("/")
-=======
-    return render(request, 'items/item.html', context)
     
 def ShowUsersList(request, user_id, userlist_id):
     response = api.view_items_by_user(request, user_id, userlist_id)
     context = {'userlist':response.data}
 
     return render(request, 'items/userLists.html', context)
->>>>>>> main
