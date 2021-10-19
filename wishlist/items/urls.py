@@ -7,5 +7,6 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('items/', item_views.ListAllItems),
-    path('items/<int:item_id>', item_views.ShowItem, name="specific_item")
+    path('items/<int:item_id>', item_views.ShowItem, name="specific_item"),
+    path('userlist/<int:user_id>/<int:userlist_id>', item_views.ShowUsersList, name="show_user_list"),
 ]
