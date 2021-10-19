@@ -1,0 +1,12 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+    <img src={{ item.image }}>
+    <h1> {{ item.name }} </h1>
+    <h2> {{ item.price }} </h2>
+    <br><br>
+    <h3>Category: {{ item.category }} </h3>
+    <h4>Description: {{ item.description }}</h4>
+
+
+{% endblock content %}
