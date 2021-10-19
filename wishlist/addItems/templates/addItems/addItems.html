@@ -1,10 +1,82 @@
 {% extends "home/base.html" %}
 {% block content %}
-<article class="media content-section">
-    <div class="media-body">
-        <div class="article-metedata">
-            
-        </div>
+  {% if user.is_authenticated %}
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>{{ user.username }}'s Wishlist</h1>
+    <div>
+      {% if clearSearch %}
+      <a href="{% url 'index' %}"><button class="btn btn-sm btn-outline-danger" type="button">Clear Search</button></a>
+      {% endif %}
+      <a href="{% url 'newItem' %}" class="btn btn-sm btn-success mr-2">Add Item</a>
     </div>
-</article>
+  </div>
+  <form method='GET' action=".">
+    <div class="form-row">
+      <div class="col-8">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">Search By Keyword</span>
+          </div>
+          <input type="text" class="form-control" name="keyword">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class='input-group-text'>Priority</span>
+          </div>
+          <select class="custom-select" id="prioritySelect" name="priority">
+            <option value="" selected>All</option>
+            <option value="0">Zero</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+            <option value="4">Four</option>
+            <option value="5">Five</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+      </div>
+    </div>
+  </form>
+  <br>
+  
+  {% for i in stuff %}
+  <div id="accordion"></div>
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center" id="heading{{ i.id }}">
+        <span class="mb-0">
+          <span class="badge badge-pill badge-warning">{{ i.priority }}</span>
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ i.id }}" aria-expanded="true" aria-controls="collapseOne">
+            <h4>{{ i.name }}</h4>
+          </button>
+        </span>
+        <span>
+          <a href="{% url 'delete_item' i.pk %}" class="badge badge-danger">Delete</a>
+          <a href="{% url 'update_item' i.pk %}" class="badge badge-primary">Edit</a>
+        </span>
+      </div>
+  
+      <div id="collapse{{ i.id }}" class="collapse hide" aria-labelledby="heading{{ i.id }}" data-parent="#accordion">
+        <div class="card-body">
+            <p><img src="{{ i.image }}" width="auto" height="400"></img></p>
+            <p>Description: {{ i.description }}</p>
+            <p>Priority: {{ i.priority }}</p>
+            <a href="{{ i.url_id.url }}" target="_blank">Url Link</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+    
+  {% else %}
+  <div class="jumbotron text-center">
+    <h1 class="display-4">Welcome to Wishlist App!</h1>
+    <p class="lead">Construct your own wishlist to keep track of items you want.</p>
+    <hr class="my-4">
+    <p class="text-muted">Don't have an account yet?</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Sign up now!</a>
+  </div>
+  {% endif %}
 {% endblock content %}

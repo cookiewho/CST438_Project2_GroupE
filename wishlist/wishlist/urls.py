@@ -19,13 +19,14 @@ from django.urls import path, include
 from items import views as item_views
 from django.shortcuts import redirect
 from rest_framework.authtoken.views import obtain_auth_token
+from django.conf.urls import url
 # from users import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('addItems/', addItems_views.addItems, name='addItems'),
+    # path('addItems/', addItems_views.addItems, name='addItems'),
     path('', include('home.urls'), name='home'),
-    path('items/', item_views.ListAllItems),
+    path('', include(('items.urls', 'items'), namespace="items_app")),
     # path('register/', user_views.register, name='register'),
     # path('login/', user_views.login, name='login'),
     # path('update/', user_views.update, name='update'),
