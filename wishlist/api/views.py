@@ -9,6 +9,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
+from rest_framework.renderers import JSONRenderer
 from .serializers import *
 from .models import UserList, Item
 from .forms import ItemUpdateForm
@@ -22,6 +23,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.db import IntegrityError
 import requests
+import io
 
 # from django.db.models import Q
 # from rest_framework.filters import (SearchFilter, OrderingFilter)
@@ -44,21 +46,17 @@ def view_user(request, pk):
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-#[url]/api/create_user/
-@api_view(['POST'])
-def create_users2(request):
-    if request.method == 'POST':
-        serializer1 = UserSerializer(data=request.data)
-        if serializer1.is_valid():
-            #serializer1.save()
-            # create_newUserList(request)
-            #serializer2 = UserListSerializer2(instance=serializer1, data=request.data)
-            # if serializer2.is_valid():    
-            #     serializer1.save()
-            #     serializer2.save()
-            #     return Response(serializer1.data, status=status.HTTP_201_CREATED)
-            return Response(serializer1.data, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST) 
+#[url]/api/view_user/<id>/  
+@api_view(['GET'])
+def get_id(request, pk):
+    try:
+        user = User.objects.get(username=pk)
+    except User.DoesNotExist:
+        return Response("User not found")
+    serializer = UserSerializer(user, many=False)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
 #[url]/api/create_user/
 @api_view(['POST'])
@@ -66,14 +64,37 @@ def create_users(request):
     if request.method == 'POST':
         serializer1 = UserSerializer(data=request.data)
         if serializer1.is_valid():
-            # create_newUserList(request)
+            #Get the data and save it. User Creation
             serializer1.save()
-            # newUserList = UserList.objects.create(serializer1)
-            #newUserList = create_newUserList(serializer1.data)
-            # if(newUserList == UserList):
-            return Response(serializer1.data, status=status.HTTP_201_CREATED)
-            # else:
-            #     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+            #Deserializes the data
+            json = JSONRenderer().render(serializer1.data)
+            stream = io.BytesIO(json)
+            data = JSONParser().parse(stream)
+
+            #Get the username from the deserialized data
+            username = data["username"]
+
+            #Find the user object that has the username with the inputed username
+            user = User.objects.get(username=username)
+
+            #Create a serializer2 BUT do not save it
+            serializer2 = UserSerializer(user, many=False)
+
+            #Deserializes the serializer2 to get the data
+            json1 = JSONRenderer().render(serializer2.data)
+            stream1 = io.BytesIO(json1)
+            data = JSONParser().parse(stream1)
+
+            #Get the id of the user       
+            id = data["id"] 
+
+            #Create a user list object with the user_id 
+            newUserList = UserList.objects.create(user_id=id)
+
+            #Save the new user list
+            newUserList.save()
+            return Response(serializer1.data, status=status.HTTP_200_OK)
         return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST) 
 
 #[url]/api/login/

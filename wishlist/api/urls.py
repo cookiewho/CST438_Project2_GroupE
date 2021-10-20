@@ -6,11 +6,11 @@ from api.views import *
 
 urlpatterns = [
     path('create_users/', create_users, name='create_user_view'),
-    path('create_users2/', create_users2, name='create_user2_view'),
     path('login/', login, name='login'),
     path('logout/', logout, name='logout'),
     path('view_users/', view_users, name='view_users_view'),
     path('view_user/<str:pk>/', view_user, name='view_user_view'),
+    path('get_ID/<str:pk>/', get_id, name='get_ID_view'),
     path('update_user/<str:pk>', update_user, name='update_user_view'),
     path('delete_user/<str:pk>', delete_user, name='register_view'),
     path('view_items/', view_items, name='view_items_view'),
