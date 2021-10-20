@@ -7,10 +7,17 @@
             border-color: #1d65a3;
         }
     </style>
+    {% if messages %}
+        <div>
+            <h1>{{ message }}</h1>   
+        </div>
+        <br>
+    {% endif %}
+
     <img src={{ item.image }}>
     <h1> {{ item.name }} </h1>
     <h2> {{ item.price }} </h2>
-    <form action="{% url 'items_app:add_item' item.id user %}" method="POST">
+    <form action="{% url 'items_app:add_item' item.id user list %}" method="POST">
         {% csrf_token %}
         <button class="btn btn-success btn-lg" type="submit">Add to list</button>
     </form>
