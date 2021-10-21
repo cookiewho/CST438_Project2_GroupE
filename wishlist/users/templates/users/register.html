@@ -1,7 +1,7 @@
 {% extends "home/base.html" %} {% block content %}
 <h1>Register</h1>
 <div class="content-section">
-    <form method="POST" action='{{ api_register }}'>
+    <form method="POST" action='{{ 'api:create_users' }}'>
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Join Today</legend>
