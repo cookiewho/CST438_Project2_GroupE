@@ -6,24 +6,41 @@
             background-color: #34a13a;
             border-color: #1d65a3;
         }
+
+        img{
+            width: 70%;
+            height: 70%
+        }
     </style>
-    {% if messages %}
-        <div>
-            <h1>{{ message }}</h1>   
+    <div class="row">
+        <div class="col-md-6">
+            {% if messages %}
+                <div>
+                    <h1>{{ message }}</h1>   
+                </div>
+                <br>
+            {% endif %}
+
+            <img src={{ item.image }}>
+
+            <div class="row">
+                <h1> {{ item.name }} </h1>
+                <h2> ${{ item.price }} </h2>
+
+                <div class="col-md-6">
+                    <form action="{% url 'items_app:add_item' item.id user list %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-success btn-lg" type="submit">Add to list</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <br>
-    {% endif %}
 
-    <img src={{ item.image }}>
-    <h1> {{ item.name }} </h1>
-    <h2> {{ item.price }} </h2>
-    <form action="{% url 'items_app:add_item' item.id user list %}" method="POST">
-        {% csrf_token %}
-        <button class="btn btn-success btn-lg" type="submit">Add to list</button>
-    </form>
-    <br><br>
-    <h3>Category: {{ item.category }} </h3>
-    <h4>Description: {{ item.description }}</h4>
 
+        <div class="col-md-6">
+            <h3>Category: {{ item.category }} </h3>
+            <h4>Description: {{ item.description }}</h4>
+        </div>
+    </div>
 
 {% endblock content %}
