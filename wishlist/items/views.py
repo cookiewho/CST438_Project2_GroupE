@@ -13,6 +13,7 @@ def ListAllItems(request):
 def ShowItem(request, item_id):
     user_list_resp = api.view_userlists(request)
     
+    # TODO: Replace hardcoded user_id
     # get user_id from sessions
     request.session['user_id'] = 1
     user_id = request.session['user_id']
@@ -27,23 +28,18 @@ def ShowItem(request, item_id):
     # get all items
     response = api.view_items_by_id(request, item_id)
 
+    # pass data into page
     context = {'item' : response.data, 'user' : user_id, 'list' : user_list_id}
     return render(request, 'items/item.html', context)
 
 def AddItem(request, item_id, user_id, list_id):
-    # response = api.view_userlists(request)
-    # print(response.data)
-
-    # call view all user lists
-    # iterate and find matching user list with user_id
-    # get user_list id
-    # call api function to add item to user list
-
     response = api.create_item_by_user(request, user_id, list_id, item_id)
+
     if response.status_code == 200:
         messages.success(request, 'Item Added!')
     else:
         messages.error(request, 'Error: Item can not be added to list.')
+
     return redirect("/items/{}".format(item_id))
     
 def ShowUsersList(request, user_id, userlist_id):   
