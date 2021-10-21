@@ -30,7 +30,6 @@ def register(request):
       print("ERROR MESSAGE!:", response.data)
       for val in response.data:
         error_message += val
-      print("ERROR MESSAGE!:", error_message)
       return render(request, 'users/register.html', {'register_form': register_form, 'error_message': error_message})
   return render(request, 'users/register.html', {'register_form': register_form})
 
@@ -44,16 +43,12 @@ def login(request):
       json_resp = (response.data)
       request.session['user_id'] = json_resp['id']
       messages.success(request, f'Welcome back {response.data["username"]}!')
-      return redirect("/accountDetails")
+      return redirect("/items")
     else:
-      json_resp = response.data
       error_message = ""
       print("ERROR MESSAGE!:", response.data)
-      for key, val in response.data:
+      for val in response.data:
         error_message += val
-      
-      print("ERROR MESSAGE!:", error_message)
-      messages.error(request, f'ERROR: {error_message}')
       return render(request, 'users/login.html', {'login_form': login_form, 'error_message': error_message})  
   return render(request, 'users/login.html', {'login_form': login_form})
 
@@ -75,17 +70,22 @@ def update(request):
   
   return render(request, 'users/update.html', context)
 
-# @login_required
+@login_required
 def account(request):
+  if 'user_id' not in request.session:
+    return redirect ("/login")
   user_id = request.session['user_id']
+  
   if request.method=="POST":
     if 'delete_acc' in request.POST:
+      request.method = 'DELETE'
+      request.META['REQUEST_METHOD'] = 'DELETE'
 
       #call api to delete user where user.id == user_id
       response = api.delete_user(request, user_id)
       if response.status_code != 400:
         del request.session['user_id'] # delete session
-        messages.success(request, f'Account Deleted, so long space cowboy {response.data}')
+        messages.success(request, f'Account Deleted, so long space cowboy')
         return redirect('/')
       else:
         messages.error(request, f'Account couldn\'t be deleted, better luck next time!')
@@ -94,7 +94,7 @@ def account(request):
       
       del request.session['user_id'] #deleting session
       messages.success(request, f'You have been logged out')
-      return redirect('/',)
+      return redirect('/')
   else:
     response = api.view_user(request, user_id)
     return render(request, 'users/accountDetails.html', response.data)
