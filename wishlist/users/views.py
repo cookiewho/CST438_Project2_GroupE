@@ -1,3 +1,4 @@
+from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate
@@ -5,24 +6,32 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from users.models import User
 from django.contrib.auth.decorators import login_required
-from api import views
+from api import views as api
+from api import urls as calls
+from home.views import home_redirect
+import json
 
 
 def register(request):
   if request.method == 'POST':
-    register_form = UserCreationForm(request.POST)
-    if register_form.is_valid():
-      inputed_username = register_form.cleaned_data.get('username')
-      response = views.create_users(request)
-      
-      # create_users/
-      
-      request.session['user_id'] = user.id
-      messages.success(request, f'Account created for {username}!')
-      return redirect('admin')
+    json_data = json.loads(request.body)
+    status = request.status
+    # print("LOOK OVER HERE AGAIN:", json_data)
+    print("LOOK OVER HERE:", status)
+    print("LOOK OVER HERE AGAIN:", json_data)
+    if status != 400:
+      print("LOOK OVER HERE:", request.POST)
+      print("LOOK OVER HERE AGAIN:", request.body)
+      messages.success(request, f'Account created for {request.POST["username"]}')
+      return redirect("/login")
+    else:
+      register_form = UserCreationForm()
+      api_call = "/api/create_users/"
+      return render(request, 'users/register.html', {'register_form': register_form, 'api_register': api_call})
   else:  
     register_form = UserCreationForm()
-  return render(request, 'users/register.html', {'register_form': register_form})
+    api_call = "/api/create_users/"
+  return render(request, 'users/register.html', {'register_form': register_form, 'api_register': api_call})
 
 def login(request):
   if request.method == 'POST':
