@@ -8,6 +8,15 @@
             <br>
             {{ register_form|crispy }}
         </fieldset>
+        <br>
+
+        {% if error_message %}
+        <div class="errorBox">
+            {{ error_message }}
+        </div>
+        {% endif %}
+
+        <br>
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Sign Up</button>
         </div>

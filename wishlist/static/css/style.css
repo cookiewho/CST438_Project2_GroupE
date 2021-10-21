@@ -40,3 +40,8 @@
     display:flex;
     justify-content: space-between;
   }
+
+  .errorBox{
+    background-color: rgb(255, 75, 75);
+    padding: 2px 5px;
+  }
