@@ -1,20 +1,12 @@
-{% extends "home/base.html" %} {% block content %}
+{% extends "home/base.html" %} {% block content %}{% load crispy_forms_tags %}
 <h1>Register</h1>
 <div class="content-section">
-    <form method="POST" action='{{ 'api:create_users' }}'>
+    <form method="POST" >
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Join Today</legend>
-            <div class="row">
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="First name">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Last name">
-                </div>
-            </div>
             <br>
-            {{ register_form.as_p }}
+            {{ register_form|crispy }}
         </fieldset>
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Sign Up</button>
