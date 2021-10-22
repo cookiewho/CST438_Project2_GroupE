@@ -1,37 +1,8 @@
   .content {
-    
     align-items: center;
     justify-content: center;
+    padding-top: 10%;
   }
-  /* .navbarStyling{
-    background-color: rgb(245, 154, 17);
-  }
-  .navbar-nav .nav-link{
-    font-weight: 500;
-  }
-
-  .navbar-nav .nav-link:hover{
-    color: #ffffff;
-  }
-
-  .navbar-nav .nav-link{
-    color: #cbd5db;
-  }
-  .navbarStyling{
-    background-color: rgb(245, 154, 17);
-  }
-  .navbar-nav .nav-link{
-    font-weight: 500;
-  }
-
-  .navbar-nav .nav-link:hover{
-    color: #ffffff;
-  }
-
-  .navbar-nav .nav-link{
-    color: #cbd5db;
-  } */
-
   #horizontalSign{
     text-align: center;
     margin: 5% auto;
@@ -53,23 +24,22 @@
     text-align: center;
   }
 
-  .gradientNav {
-    background: linear-gradient(45deg, #d17c78, #cf9eb6, #fcb4cc);
-    background-size: 400% 400%;
-    animation: gradient 20s ease infinite;
+  .navbarStyling a{
+    font-weight: bold;
+    color: black;
   }
-  .gradientBody{
+  
+  .navbarStyling a{
+    font-weight: bold;
+    color: black;
+  }
+
+  .gradientNav {
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
-    animation: gradient 5s ease infinite;
-  }
-  .gradientBody2 {
-
-    background: linear-gradient(-45deg, #ffcc4c,#1fde91, #864bff, #19aad1 );
-    background-size: 200% 1000%;
     animation: gradient 20s ease infinite;
-    
   }
+  
   @keyframes gradient {
     0% {
         background-position: 0% 50%;
@@ -86,6 +56,11 @@
     display:flex;
     color: rgb(255, 0, 0);
     justify-content: space-between;
+  }
+
+  .messageBox{
+    background-color: rgb(56, 255, 56);
+    padding: 2px 5px;
   }
 
   .errorBox{
