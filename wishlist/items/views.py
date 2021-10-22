@@ -13,9 +13,7 @@ def ListAllItems(request):
 def ShowItem(request, item_id):
     user_list_resp = api.view_userlists(request)
     
-    # TODO: Replace hardcoded user_id
     # get user_id from sessions
-    request.session['user_id'] = 1
     user_id = request.session['user_id']
 
     # find the user's list
