@@ -127,8 +127,8 @@ def delete_user(request, pk):
         user = User.objects.get(id=pk)
     except User.DoesNotExist:
         return Response("User not found", status=status.HTTP_400_BAD_REQUEST )
-    user.delete()
-    return Response(f'User {user.username} deleted.', status=status.HTTP_200_OK)
+    User.objects.get(id=pk).delete()
+    return Response(f'User {user.username} deleted. {user.username}', status=status.HTTP_200_OK)
 
 #view all items in Item
 #[url]/view_items/

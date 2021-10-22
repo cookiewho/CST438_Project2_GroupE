@@ -1,7 +1,7 @@
 {% extends "home/base.html" %}
 {% block content %}
     <div class="content">
-        <p>Welcome to you account page <b>{{ Fname }} {{ Lname }}</b></p>
+        <p>Welcome to you account page <b>{{ first_name }} {{ last_name }}</b></p>
 
         <div class="wideButtonSelection">
             <form method="POST" onsubmit="return confirm('Are you sure you want to DELETE your account?')">

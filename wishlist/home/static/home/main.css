@@ -16,15 +16,15 @@ body {
     background-color: #5f788a;
   }
   
-  .site-header .navbar-nav .nav-link {
+  .site-header {
     color: #cbd5db;
   }
   
-  .site-header .navbar-nav .nav-link:hover {
+  .site-header {
     color: #ffffff;
   }
   
-  .site-header .navbar-nav .nav-link.active {
+  .site-header .active {
     font-weight: 500;
   }
   
