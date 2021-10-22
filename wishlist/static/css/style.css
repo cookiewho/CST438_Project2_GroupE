@@ -84,6 +84,11 @@
 
   .wideButtonSelection{
     display:flex;
-    justify-content: space-around;
     color: rgb(255, 0, 0);
+    justify-content: space-between;
+  }
+
+  .errorBox{
+    background-color: rgb(255, 75, 75);
+    padding: 2px 5px;
   }

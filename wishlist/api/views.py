@@ -1,5 +1,6 @@
 from os import stat
 from django import forms
+from django.http import response
 from django.http.response import HttpResponseRedirect
 from rest_framework import serializers, status
 from rest_framework.exceptions import ValidationError
@@ -20,10 +21,11 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.db import IntegrityError
+
 # from django.db.models import Q
 # from rest_framework.filters import (SearchFilter, OrderingFilter)
 # from django_filters.rest_framework import DjangoFilterBackend 
-
+    
 #[url]/api/view_users/
 @api_view(['GET'])
 def view_users(request):
@@ -47,13 +49,14 @@ def create_users2(request):
     if request.method == 'POST':
         serializer1 = UserSerializer(data=request.data)
         if serializer1.is_valid():
+            #serializer1.save()
             # create_newUserList(request)
-            serializer2 = UserListSerializer2(instance=serializer1, data=request.data)
-            if serializer2.is_valid():    
-                serializer1.save()
-                serializer2.save()
-                return Response(serializer1.data, status=status.HTTP_201_CREATED)
-            return Response(serializer2.errors, status=status.HTTP_400_BAD_REQUEST)
+            #serializer2 = UserListSerializer2(instance=serializer1, data=request.data)
+            # if serializer2.is_valid():    
+            #     serializer1.save()
+            #     serializer2.save()
+            #     return Response(serializer1.data, status=status.HTTP_201_CREATED)
+            return Response(serializer1.data, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST) 
 
 #[url]/api/create_user/
@@ -70,7 +73,10 @@ def create_users(request):
             return Response(serializer1.data, status=status.HTTP_201_CREATED)
             # else:
             #     return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST) 
+        errors = []
+        for key, values in serializer1.errors.items():
+            errors = [value[:] for value in values]
+        return Response(errors, status=status.HTTP_400_BAD_REQUEST) 
 
 #[url]/api/login/
 @api_view(['POST'])
@@ -104,8 +110,8 @@ def delete_user(request, pk):
         user = User.objects.get(id=pk)
     except User.DoesNotExist:
         return Response("User not found", status=status.HTTP_400_BAD_REQUEST )
-    user.delete()
-    return Response(f'User {user.username} deleted.', status=status.HTTP_200_OK)
+    User.objects.get(id=pk).delete()
+    return Response(f'User {user.username} deleted. {user.username}', status=status.HTTP_200_OK)
 
 #view all items in Item
 #[url]/view_items/
@@ -172,19 +178,15 @@ def view_item_by_user(request, pk1, pk2, pk3):
 #create a item in the userlist by user_id, userlist_id, and item_id
 #[url]/create_item_by_user/<user_id>/<userlist_id>/<item_id>
 @api_view(['POST'])
-def create_item_by_user(request, pk1, pk2):
+def create_item_by_user(request, pk1, pk2, pk3):
     try:
         user = User.objects.get(id=pk1)
         items = UserList.objects.get(id=pk2)
+        item = Item.objects.get(id=pk3)
     except:
         return Response("User_ID or User_List ID is not found", status=status.HTTP_400_BAD_REQUEST)
-    serializer = ItemSerializer(data=request.data, many=True)
-    serializer2 = UserListSerializer(items, many=False)
-    if serializer.is_valid():
-        #serializer.save()
-        serializer2.user_list.create(serializer)
-        return Response(serializer2.data, status=status.HTTP_202_ACCEPTED)
-    return Response(serializer2.errors, status=status.HTTP_400_BAD_REQUEST)
+    items.user_list.add(Item.objects.get(id=pk3))
+    return Response(f'Item {item.name} added to user list, {user.username}.', status=status.HTTP_200_OK)
 
 #delete a item in the userlist by user_id, userlist_id, and item_id
 #[url]/delete_item_by_user/<user_id>/<userlist_id>/<item_id>
@@ -196,7 +198,7 @@ def delete_item_by_user(request, pk1, pk2, pk3):
         item = Item.objects.get(id=pk3)
     except:
         return Response("User_ID or User_List ID or Item is not found", status=status.HTTP_400_BAD_REQUEST)
-    item.delete()
+    items.user_list.remove(Item.objects.get(id=pk3))
     return Response(f'Item {item.name} deleted.', status=status.HTTP_200_OK)
 
 #update a item in the userlist by user_id, userlist_id, and item_id

@@ -1,3 +1,4 @@
+from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate
@@ -5,34 +6,41 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from users.models import User
 from django.contrib.auth.decorators import login_required
+from api import views as api
+from api import urls as calls
+from api import serializers as ser
+from home.views import home_redirect
+from .forms import UserRegisterForm
+import json
+
 
 def register(request):
+  register_form = UserRegisterForm()
   if request.method == 'POST':
-    register_form = UserCreationForm(request.POST)
-    if register_form.is_valid():
-      inputed_username = register_form.cleaned_data.get('username')
-      user = User.object.get(username=inputed_username)
-      request.session['user_id'] = user.id
-      messages.success(request, f'Account created for {username}!')
-      return redirect('admin')
-  else:  
-    register_form = UserCreationForm()
+    response = api.create_users(request)
+    if response.status_code != 400:
+      messages.success(request, f'Account created for {response.data["username"]}')
+      return redirect("/login")
+    else:
+      error_message = ""
+      for val in response.data:
+        error_message += val
+      return render(request, 'users/register.html', {'register_form': register_form, 'error_message': error_message})
   return render(request, 'users/register.html', {'register_form': register_form})
 
 def login(request):
-  if request.method == 'POST':
-    login_form = AuthenticationForm(request, data=request.POST)
-    if login_form.is_valid():
-      inputed_username = login_form.cleaned_data.get('username')
-      inputed_password = login_form.cleaned_data.get('password')
-      authenticated = authenticate(username=inputed_username, password=inputed_password)
-      if authenticated is not None:
-        user = User.object.get(username=inputed_username)
-        # login(request, user)
-        request.session['user_id'] = user.id
-        messages.info(request, f'Welcome back {inputed_username}.')
-        return redirect('admin')
   login_form = AuthenticationForm()
+  if request.method == 'POST':
+    response = api.login(request)
+    if response.status_code != 400:
+      request.session['user_id'] = response.data['id']
+      messages.success(request, f'Welcome back {response.data["username"]}!')
+      return redirect("/items")
+    else:
+      error_message = ""
+      for val in response.data:
+        error_message += val
+      return render(request, 'users/login.html', {'login_form': login_form, 'error_message': error_message})  
   return render(request, 'users/login.html', {'login_form': login_form})
 
 @login_required
@@ -53,24 +61,30 @@ def update(request):
   
   return render(request, 'users/update.html', context)
 
-# @login_required
 def account(request):
+  if 'user_id' not in request.session:
+    return redirect ("/login")
+  user_id = request.session['user_id']
+  
   if request.method=="POST":
     if 'delete_acc' in request.POST:
-      #user_id = request.session['user_id']
+      request.method = 'DELETE'
+      request.META['REQUEST_METHOD'] = 'DELETE'
 
       #call api to delete user where user.id == user_id
-      #del request.session['user_id'] # delete session
-      messages.success(request, f'Account Deleted')
-      return redirect('/')
+      response = api.delete_user(request, user_id)
+      if response.status_code != 400:
+        del request.session['user_id'] # delete session
+        messages.success(request, f'Account Deleted, see you space cowboy')
+        return redirect('/')
+      else:
+        messages.error(request, f'Account couldn\'t be deleted, better luck next time!')
+        return redirect('/')
     if 'log_out' in request.POST:
-      #del request.session['user_id'] #deleting session
+      
+      del request.session['user_id'] #deleting session
       messages.success(request, f'You have been logged out')
-      return redirect('/',)
+      return redirect('/')
   else:
-  # user_id = request.session['user_id']
-  # get user json from API where user.id == user_id
-    jsonUserData = {'username': "testing",
-                  'Fname': "Jimbo",
-                  'Lname': "Bimbo"}
-    return render(request, 'users/accountDetails.html', jsonUserData)
+    response = api.view_user(request, user_id)
+    return render(request, 'users/accountDetails.html', response.data)
