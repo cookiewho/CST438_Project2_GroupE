@@ -92,7 +92,10 @@ def create_users(request):
             #Save the new user list
             newUserList.save()
             return Response(serializer1.data, status=status.HTTP_200_OK)
-        return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST) 
+        errors = []
+        for key, values in serializer1.errors.items():
+            errors = [value[:] for value in values]
+        return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
 #[url]/api/login/
 @api_view(['POST'])
