@@ -16,6 +16,7 @@ urlpatterns = [
     path('view_items/', view_items, name='view_items_view'),
     path('view_item_by_id/<str:pk>', view_items_by_id, name='view_item_by_id_view'),
     path('view_userlists/', view_userlists, name='view_userlists_view'),
+    path('view_userlists_by_userId/<str:pk>', view_userlist_by_userId, name='view_userlists_by_userId_view'),
     path('view_item_by_userlistID/<str:pk>', view_items_by_userlistID, name='view_item_by_userlistID_view'),
     path('view_items_by_user_id/<str:pk1>/<str:pk2>', view_items_by_user, name='view_items_by_user_id_view'),
     path('view_item_by_user_id/<str:pk1>/<str:pk2>/<str:pk3>', view_item_by_user, name='view_item_by_user_id_view'),
