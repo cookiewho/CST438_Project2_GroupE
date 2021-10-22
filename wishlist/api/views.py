@@ -21,7 +21,6 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.db import IntegrityError
-import requests
 
 # from django.db.models import Q
 # from rest_framework.filters import (SearchFilter, OrderingFilter)

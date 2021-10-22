@@ -76,7 +76,7 @@ def account(request):
       response = api.delete_user(request, user_id)
       if response.status_code != 400:
         del request.session['user_id'] # delete session
-        messages.success(request, f'Account Deleted, so long space cowboy')
+        messages.success(request, f'Account Deleted, see you space cowboy')
         return redirect('/')
       else:
         messages.error(request, f'Account couldn\'t be deleted, better luck next time!')
