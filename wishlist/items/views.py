@@ -4,7 +4,10 @@ from django.shortcuts import render
 from django.contrib import messages
 from api import views as api
 
-def ListAllItems(request):    
+def ListAllItems(request):
+    if 'user_id' not in request.session:        
+        return redirect ("/login")
+
     response = api.view_items(request)
     context = {'items' : response.data}
 
