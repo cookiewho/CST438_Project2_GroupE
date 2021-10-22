@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.views import Token
 from rest_framework.exceptions import NotAuthenticated
 from .models import UserList, Item
+import re
         
 class UserSerializer(serializers.ModelSerializer):
     password2 =serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -25,10 +26,18 @@ class UserSerializer(serializers.ModelSerializer):
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
         if password != password2:
-            raise serializers.ValidationError({'password': "Password must match."})
+            raise serializers.ValidationError({"Password must match.": "Password"})
+        if len(password) < 6 :
+            print("password is small")
+            raise serializers.ValidationError({"Password must be greater than 6 characters.": "Password"})
+        if re.match(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!?@#$])[\w\d!?@#$]{6,15}$", password) == False:
+            print("password is not valid")
+            raise serializers.ValidationError({ "Password must include 1 lower case and 1 upper case lette, as well as a special character !.?,@,#, or $.": "Password"})
+        
         user.set_password(password)
         user.save()
         return user
+    
             
 
 
