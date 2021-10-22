@@ -16,18 +16,13 @@ import json
 
 def register(request):
   register_form = UserRegisterForm()
-  api_call = "/api/create_users/"
   if request.method == 'POST':
     response = api.create_users(request)
     if response.status_code != 400:
-      json_resp = (response.data)
-      print("LOOK OVER HERE:", response.status_code)
-      print("LOOK OVER HERE AGAIN:", response.data)
       messages.success(request, f'Account created for {response.data["username"]}')
       return redirect("/login")
     else:
       error_message = ""
-      print("ERROR MESSAGE!:", response.data)
       for val in response.data:
         error_message += val
       return render(request, 'users/register.html', {'register_form': register_form, 'error_message': error_message})
@@ -37,16 +32,12 @@ def login(request):
   login_form = AuthenticationForm()
   if request.method == 'POST':
     response = api.login(request)
-    print("LOOK OVER HERE:", response.status_code)
-    print("LOOK OVER HERE AGAIN:", response.data)
     if response.status_code != 400:
-      json_resp = (response.data)
-      request.session['user_id'] = json_resp['id']
+      request.session['user_id'] = response.data['id']
       messages.success(request, f'Welcome back {response.data["username"]}!')
       return redirect("/items")
     else:
       error_message = ""
-      print("ERROR MESSAGE!:", response.data)
       for val in response.data:
         error_message += val
       return render(request, 'users/login.html', {'login_form': login_form, 'error_message': error_message})  
