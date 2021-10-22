@@ -3,13 +3,17 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Update
 
+
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField()
+    firstNameEdit = forms.CharField(label = 'First name', max_length=100)
+    lastNameEdit = forms.CharField(label = 'Last name', max_length=100)
+    password = forms.CharField(widget=forms.PasswordInput())
+
 
     class Meta:
         model = User
-        fields = ['username', 'email']
-
+        fields = ['firstNameEdit', 'lastNameEdit', 'username', 'password']
+        
 class UserRegisterForm(forms.ModelForm):
     first_name = forms.CharField()
     last_name = forms.CharField()
