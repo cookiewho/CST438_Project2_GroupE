@@ -76,7 +76,8 @@ def create_users(request):
         errors = []
         for key, values in serializer1.errors.items():
             errors = [value[:] for value in values]
-        return Response(errors, status=status.HTTP_400_BAD_REQUEST) 
+        return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+    return  Response(serializer1.error, status=status.HTTP_400_BAD_REQUEST)
 
 #[url]/api/login/
 @api_view(['POST'])
