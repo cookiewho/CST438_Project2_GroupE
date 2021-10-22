@@ -26,9 +26,7 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('addItems/', addItems_views.addItems, name='addItems'),
     path('', include('home.urls'), name='home'),
-    # re_path(r'^home/$', "views.home-redirect", name="home-redirect"),
     path('', include(('items.urls', 'items'), namespace="items_app")),
     path('items/', item_views.ListAllItems),
     path('register/', user_views.register, name='register'),

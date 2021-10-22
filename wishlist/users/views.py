@@ -61,7 +61,6 @@ def update(request):
   
   return render(request, 'users/update.html', context)
 
-@login_required
 def account(request):
   if 'user_id' not in request.session:
     return redirect ("/login")
