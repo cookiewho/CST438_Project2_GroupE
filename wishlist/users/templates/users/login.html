@@ -7,6 +7,15 @@
             <fieldset class="form-group">
                 {{ login_form.as_p }}
             </fieldset>
+
+            {% if error_message %}
+                <div class="errorBox">
+                    {{ error_message }}
+                </div>
+            {% endif %}
+
+            <br>
+
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">Sign In</button>
             </div>

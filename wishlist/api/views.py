@@ -73,7 +73,10 @@ def create_users(request):
             return Response(serializer1.data, status=status.HTTP_201_CREATED)
             # else:
             #     return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST) 
+        errors = []
+        for key, values in serializer1.errors.items():
+            errors = [value[:] for value in values]
+        return Response(errors, status=status.HTTP_400_BAD_REQUEST) 
 
 #[url]/api/login/
 @api_view(['POST'])
@@ -107,8 +110,8 @@ def delete_user(request, pk):
         user = User.objects.get(id=pk)
     except User.DoesNotExist:
         return Response("User not found", status=status.HTTP_400_BAD_REQUEST )
-    user.delete()
-    return Response(f'User {user.username} deleted.', status=status.HTTP_200_OK)
+    User.objects.get(id=pk).delete()
+    return Response(f'User {user.username} deleted. {user.username}', status=status.HTTP_200_OK)
 
 #view all items in Item
 #[url]/view_items/

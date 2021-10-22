@@ -3,6 +3,20 @@
     justify-content: center;
     text-align: center;
   }
+  .navbarStyling{
+    background-color: rgb(245, 154, 17);
+  }
+  .navbar-nav .nav-link{
+    font-weight: 500;
+  }
+
+  .navbar-nav .nav-link:hover{
+    color: #ffffff;
+  }
+
+  .navbar-nav .nav-link{
+    color: #cbd5db;
+  }
 
   #horizontalSign{
     text-align: center;
@@ -25,4 +39,9 @@
   .wideButtonSelection{
     display:flex;
     justify-content: space-between;
+  }
+
+  .errorBox{
+    background-color: rgb(255, 75, 75);
+    padding: 2px 5px;
   }
