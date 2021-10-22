@@ -20,7 +20,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import TokenAuthentication
-from django.db import IntegrityError
 import io
 
 # from django.db.models import Q
@@ -156,6 +155,14 @@ def view_userlists(request):
     serializer = UserListSerializer(userlist, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+#[url]/view_userlists/
+@api_view(['GET'])
+def view_userlist_by_userId(request, pk):
+    user = User.objects.get(id=pk)
+    userlist = UserList.objects.get(user=user)
+    serializer = UserListSerializer(userlist, many=False)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 #view items by userlist_id in Userlist
 #[url]/view_items_by_user_id/<id>
 @api_view(['GET'])
@@ -207,7 +214,7 @@ def create_item_by_user(request, pk1, pk2, pk3):
 
 #delete a item in the userlist by user_id, userlist_id, and item_id
 #[url]/delete_item_by_user/<user_id>/<userlist_id>/<item_id>
-@api_view(['DELETE'])
+@api_view(['DELETE', 'GET'])
 def delete_item_by_user(request, pk1, pk2, pk3):
     try:
         user = User.objects.get(id=pk1)
@@ -220,6 +227,9 @@ def delete_item_by_user(request, pk1, pk2, pk3):
 
 #update a item in the userlist by user_id, userlist_id, and item_id
 #[url]/update_item_by_user/<user_id>/<userlist_id>/<item_id>
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
 @api_view(['PUT'])
 def update_item_by_user(request, pk1, pk2, pk3):
     try:
