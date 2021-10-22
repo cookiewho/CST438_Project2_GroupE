@@ -20,9 +20,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
 from django.db import IntegrityError
-import requests
 import io
 
 # from django.db.models import Q
