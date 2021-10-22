@@ -26,7 +26,7 @@
 
 <body>
     <header class="site-header">
-        <nav class=" navbarStyling navbar navbar-expand-md fixed-top">
+        <nav class="gradientNav navbarStyling navbar navbar-expand-md fixed-top">
             <div class="container">
                 <a class="navbar-brand mr-4" href="{% url 'home-page' %}">Nick's Naks</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
@@ -52,15 +52,18 @@
     <main role="main" class="container">
         <div class="row">
             <div class="col-md-8">
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class"alert alert-{{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-                {% block content %}{% endblock %}
-            </div>
+                <div class="messageBox">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class"alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="content">
+                    {% block content %}{% endblock %}
+                </div>
             </div>
         </div>
     </main>

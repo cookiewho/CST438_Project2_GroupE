@@ -1,21 +1,10 @@
+  body{
+    background-color:aquamarine;
+  }
   .content {
     align-items: center;
     justify-content: center;
-    text-align: center;
-  }
-  .navbarStyling{
-    background-color: rgb(245, 154, 17);
-  }
-  .navbar-nav .nav-link{
-    font-weight: 500;
-  }
-
-  .navbar-nav .nav-link:hover{
-    color: #ffffff;
-  }
-
-  .navbar-nav .nav-link{
-    color: #cbd5db;
+    padding-top: 10%;
   }
 
   #horizontalSign{
@@ -35,10 +24,47 @@
     width: 80%;
     max-width: 400px;
   }
+  #centeredText {
+    text-align: center;
+  }
+
+  .navbarStyling a{
+    font-weight: bold;
+    color: black;
+  }
+  
+  .navbarStyling a{
+    font-weight: bold;
+    color: black;
+  }
+
+  .gradientNav {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 20s ease infinite;
+  }
+  
+  @keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+  }
 
   .wideButtonSelection{
     display:flex;
+    color: rgb(255, 0, 0);
     justify-content: space-between;
+  }
+
+  .messageBox{
+    background-color: rgb(56, 255, 56);
+    padding: 2px 5px;
   }
 
   .errorBox{
