@@ -1,10 +1,14 @@
 {% extends "home/base.html" %}
 {% block content %}
 <!--Section: Block Content-->
-<section>
+<!DOCTYPE html>
+<html>
 
-    <!--Section: Block Content-->
-    <!-- <h1>{{ userlist.id }}</h1>
+<body>
+    <section>
+
+        <!--Section: Block Content-->
+        <!-- <h1>{{ userlist.id }}</h1>
         <h1>{{ userlist.list_name }}</h1>
         <h1>{{ userlist.user }}</h1>
         {% for items in userlist.user_list %}
@@ -13,95 +17,168 @@
             <h2> {{ items.price }}</h2>
         {% endfor %} -->
 
-    <!--Grid row-->
-    <div class="row">
+        <!--Grid row-->
 
-        <!--Grid column-->
-        <div class="col-lg-8">
+        <div class="row">
 
-            <!-- Card -->
-            <div class="mb-3">
-                <div class="pt-4 wish-list">
+            <!--Grid column-->
+            <div class="col-lg-8">
 
-                    <h3 class="mb-4">Wishlist: {{userlist.list_name}}</h3>
-                    
-                    {% for items in userlist.user_list %}
-                    <div class="row mb-4">
-                        <div class="col-md-5 col-lg-3 col-xl-3">
-                            <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                                <img class="img-thumbnail"
-                                    src={{items.image}}
-                                    alt="Image">
-                            </div>
-                        </div>
-                        <div class="col-md-7 col-lg-9 col-xl-9">
-                            <div>
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <h4 class="text-uppercase">{{items.name}}</h4>
-                                        <p class="mb-3 text-success" >Category: {{items.category}}</p>
-                                        <p class="mb-2 text-success">Description: {{items.description}}</p>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <a class="btn btn-danger" href="#" role="button" class="card-link-secondary small text-uppercase mr-3"><i
-                                                class="fas fa-trash-alt mr-1"></i> Remove item </a>
-                                        <a class="btn btn-primary" href="#" role="button" class="card-link-secondary small text-uppercase"><i
-                                                class="fas fa-heart mr-1"></i> Edit item </a>
-                                    </div>
-                                    <p ><span><strong id="price">${{items.price}}</strong></span></p>
+                <!-- Card -->
+                <div class="mb-3">
+                    <div class="pt-4 wish-list">
+
+                        <h3 class="mb-4">Wishlist: {{userlist.list_name}}</h3>
+
+                        {% for items in userlist.user_list %}
+                        <div class="row mb-4">
+                            <div class="col-md-5 col-lg-3 col-xl-3">
+                                <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                                    <img class="img-thumbnail" src={{items.image}} alt="Image">
                                 </div>
                             </div>
+                            <div class="col-md-7 col-lg-9 col-xl-9">
+                                <div>
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4 class="text-uppercase">{{items.name}}</h4>
+                                            <p class="mb-3 text-success">ID: {{items.id}}</p>
+                                            <p class="mb-3 text-success">Category: {{items.category}}</p>
+                                            <p class="mb-2 text-success">Description: {{items.description}}</p>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <a onclick="deleteItem(`{{items.id}}`)" class="btn btn-danger" type="button"
+                                                class="card-link-secondary small text-uppercase mr-3" class="delete"><i
+                                                    class="fas fa-trash-alt mr-1"></i> Remove item </a>
+                                            <!-- {% csrf_token %} -->
+                                            <!-- onclick="updateItem({{items.id}})" -->
+
+                                            <button class="btn btn-primary" role="button"
+                                                class="card-link-secondary small text-uppercase" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"><i class="fas fa-heart mr-1"> </i> Edit
+                                                item </button>
+
+                                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Update Item:
+                                                                {{items.name}}
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form id="form">
+                                                                {% csrf_token %}
+                                                                <div class="mb-3">
+                                                                    <label for="formGroupExampleInput"
+                                                                        class="form-label">Name</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="UpdateName" placeholder="IPHONE">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="formGroupExampleInput2"
+                                                                        class="form-label">Category</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="UpdateCategory" placeholder="Electronics">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="formGroupExampleInput2"
+                                                                        class="form-label">Description</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="UpdateDescription"
+                                                                        placeholder="This is an IPHONE">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button onclick="updateItem(`{{items.id}}`)" type="button"
+                                                                class="btn btn-primary">Save
+                                                                changes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><span><strong id="price">${{items.price}}</strong></span></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        {% endfor %}
+                        <hr class="mb-4">
                     </div>
-                    {% endfor %}
-                    <hr class="mb-4">
                 </div>
+
             </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-4">
+            </div>
+            <!--Grid column-->
 
         </div>
-        <!--Grid column-->
+        <!-- Grid row -->
+        <script type="text/javascript">
+            function deleteItem(id) {
+                var r = confirm("Delete Item?");
+                if (r == true) {
+                    var apiUrl = 'https://nicnak.herokuapp.com/api/delete_item_by_user/{{userlist.user}}/{{userlist.id}}/' + id
+                    fetch(apiUrl).then(response => {
+                        return response.json();
+                    }).then(data => {
+                        console.log(data);
+                        window.location.reload();
+                    }).catch(err => {
+                        console.log(data);
+                    })
+                }
+                else {
+                    console.log("You pressed Cancel!");
+                }
+            }
 
-        <!--Grid column-->
-        <div class="col-lg-4">
+            function updateItem(id) {
+                var form = document.getElementById('form')
+                csrftoken = form.getElementsByTagName("input")[0].value
+                console.log('Newtoken: ', form.getElementsByTagName("input")[0].value)
+                var name = document.getElementById("UpdateName").value
+                var category = document.getElementById("UpdateCategory").value
+                var description = document.getElementById("UpdateDescription").value
 
-            <!-- Card -->
-            <div class="mb-3">
-                <div class="pt-4">
+                const dataObject = {
+                    name: name,
+                    category: category,
+                    description: description
+                };
 
-                    <h5 class="mb-3">The total amount of</h5>
+                var apiUrl = 'https://nicnak.herokuapp.com/api/update_item_by_user/{{userlist.user}}/{{userlist.id}}/' + id
+                fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body: JSON.stringify(dataObject)
+                }).then(response => {
+                    return response.json()
+                }).then(data => {
+                    console.log(data)
+                    window.location.reload();
+                });
+                // this is the data we get after putting our data,
+            }
+        </script>
+    </section>
+</body>
 
-                    <ul class="list-group list-group-flush">
-                        <li
-                            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                            Temporary amount
-                            <span>$25.98</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                            Shipping
-                            <span>$6.99</span>
-                        </li>
-                        <li
-                            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                            <div>
-                                <strong>The total amount of</strong>
-                            </div>
-                            <span><strong>$53.98</strong></span>
-                        </li>
-                    </ul>
-
-                    <button type="button" class="btn btn-primary btn-block">go to checkout</button>
-
-                </div>
-            </div>
-            <!-- Card -->
-        </div>
-        <!--Grid column-->
-
-    </div>
-    <!-- Grid row -->
-
-</section>
+</html>
 {% endblock content %}

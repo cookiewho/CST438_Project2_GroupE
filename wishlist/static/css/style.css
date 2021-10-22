@@ -1,8 +1,12 @@
+  body{
+    background-color:aquamarine;
+  }
   .content {
     align-items: center;
     justify-content: center;
     padding-top: 10%;
   }
+
   #horizontalSign{
     text-align: center;
     margin: 5% auto;
